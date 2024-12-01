@@ -16,20 +16,26 @@ struct PlaceLookupView: View {
     
     var body: some View {
         NavigationStack {
-            List(placeVM.places) { place in
-                VStack(alignment: .leading) {
-                    Text(place.name)
-                        .font(.title2)
-                    Text(place.address)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                .onTapGesture {
-                    selectedPlace = place
-                    dismiss()
+            Group {
+                if searchText.isEmpty {
+                    ContentUnavailableView("No Results", systemImage: "mappin.slash")
+                } else {
+                    List(placeVM.places) { place in
+                        VStack(alignment: .leading) {
+                            Text(place.name)
+                                .font(.title2)
+                            Text(place.address)
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        }
+                        .onTapGesture {
+                            selectedPlace = place
+                            dismiss()
+                        }
+                    }
+                    .listStyle(.plain)
                 }
             }
-            .listStyle(.plain)
             .navigationTitle("Location Search")
             .navigationBarTitleDisplayMode(.inline)
             
@@ -42,6 +48,7 @@ struct PlaceLookupView: View {
             }
         }
         .searchable(text: $searchText)
+        .autocorrectionDisabled()
         .onAppear { // Only need to get searchRegion when View appears
             searchRegion = locationManager.getRegionAroundCurrentLocation() ?? MKCoordinateRegion()
         }

@@ -11,7 +11,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // *** CRITICALLY IMPORTANT *** Always add info.plist message for Privacy - Location When in Use Usage Description
     
     var location: CLLocation?
-    var placemark: CLPlacemark?
+//    var placemark: CLPlacemark?
     private let locationManager = CLLocationManager()
     var authorizationStatus: CLAuthorizationStatus = .notDetermined
     var errorMessage: String?
